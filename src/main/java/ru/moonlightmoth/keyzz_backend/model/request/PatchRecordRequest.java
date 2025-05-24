@@ -18,11 +18,11 @@ import lombok.NoArgsConstructor;
 public class PatchRecordRequest {
 
     @Min(1)
-    @JsonProperty("id")
+    //@JsonProperty("id")
     @Schema(description = "Id of newly posted record")
     private Long id;
 
-    @JsonProperty("note")
+    //@JsonProperty("note")
     @Size(min = 1, max = 4095, message = "Invalid note length, must be from 1 to 4095")
     @Schema(description = "Actual note to replace one in database")
     @NotNull

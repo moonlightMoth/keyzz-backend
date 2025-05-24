@@ -40,7 +40,7 @@ public class RecordServiceImpl implements RecordService{
     private AuthService authService;
 
     @Override
-    public GetRecordsUpdateResponse getNewRecords(GetRecordsUpdateRequest getRecordsUpdateRequest, JwtToken jwtToken)
+    public GetRecordsUpdateResponse getRecords(GetRecordsUpdateRequest getRecordsUpdateRequest, JwtToken jwtToken)
     {
         authService.validateUserJwt(jwtToken);
 
@@ -55,7 +55,7 @@ public class RecordServiceImpl implements RecordService{
     }
 
     @Override
-    public DeleteRecordResponse deleteRecordById(DeleteRecordRequest deleteRecordRequest, JwtToken jwtToken)
+    public DeleteRecordResponse deleteRecord(DeleteRecordRequest deleteRecordRequest, JwtToken jwtToken)
     {
         authService.validateAdminJwt(jwtToken);
 
@@ -78,8 +78,13 @@ public class RecordServiceImpl implements RecordService{
 
         Record actualRecord = recordOptional.get();
 
-        if (!(actualRecord.getUser() != null && actualRecord.getUser().equals(user) || authService.isTokenAdmins(jwtToken)))
+        boolean isAdmin = false;
+
+        if (!(actualRecord.getUser() != null && actualRecord.getUser().equals(user) || (isAdmin = authService.isTokenAdmins(jwtToken))))
             throw new UnauthorisedPatchException("Record is not posted by user trying to patch or record is primal");
+
+        if (!isAdmin && actualRecord.getTimestamp().toLocalDateTime().plusDays(3).isBefore(LocalDateTime.now()))
+            throw new UnauthorisedPatchException("Non admin user can edit records only in 3 days period after posting");
 
         Record updatedRecord = Record.builder()
                 .id(actualRecord.getId())

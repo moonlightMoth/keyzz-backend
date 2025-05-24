@@ -23,7 +23,7 @@ public class KeyzzBackendController {
     public ResponseEntity<?> getNewRecords(@RequestHeader("Authorization") String authHeader, @Valid @RequestBody GetRecordsUpdateRequest getRecordsUpdateRequest) //ResponseEntity<RecordUpdateResponse>
     {
         JwtToken jwtToken = JwtToken.builder().token(authHeader).stripBearer().build();
-        return ResponseEntity.ok(recordService.getNewRecords(getRecordsUpdateRequest, jwtToken));
+        return ResponseEntity.ok(recordService.getRecords(getRecordsUpdateRequest, jwtToken));
     }
 
     @PostMapping("/post-record")
@@ -44,7 +44,7 @@ public class KeyzzBackendController {
     public ResponseEntity<?> deleteRecord(@RequestHeader("Authorization") String authHeader, @Valid @RequestBody DeleteRecordRequest deleteRecordRequest)
     {
         JwtToken jwtToken = JwtToken.builder().token(authHeader).stripBearer().build();
-        return ResponseEntity.ok(recordService.deleteRecordById(deleteRecordRequest, jwtToken));
+        return ResponseEntity.ok(recordService.deleteRecord(deleteRecordRequest, jwtToken));
     }
 
 }
