@@ -1,4 +1,4 @@
-package ru.moonlightmoth.keyzz_backend.service;
+package ru.moonlightmoth.keyzz_backend.unit.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +12,9 @@ import ru.moonlightmoth.keyzz_backend.model.entity.Record;
 import ru.moonlightmoth.keyzz_backend.model.request.GetRecordsUpdateRequest;
 import ru.moonlightmoth.keyzz_backend.model.response.Status;
 import ru.moonlightmoth.keyzz_backend.repository.RecordRepository;
+import ru.moonlightmoth.keyzz_backend.service.AuthService;
+import ru.moonlightmoth.keyzz_backend.service.RecordService;
+import ru.moonlightmoth.keyzz_backend.service.RecordServiceImpl;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

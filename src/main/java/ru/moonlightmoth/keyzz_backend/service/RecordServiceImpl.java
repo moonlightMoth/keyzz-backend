@@ -78,9 +78,9 @@ public class RecordServiceImpl implements RecordService{
 
         Record actualRecord = recordOptional.get();
 
-        boolean isAdmin = false;
+        boolean isAdmin = authService.isTokenAdmins(jwtToken);
 
-        if (!(actualRecord.getUser() != null && actualRecord.getUser().equals(user) || (isAdmin = authService.isTokenAdmins(jwtToken))))
+        if (!(actualRecord.getUser() != null && actualRecord.getUser().equals(user) || (isAdmin)))
             throw new UnauthorisedPatchException("Record is not posted by user trying to patch or record is primal");
 
         if (!isAdmin && actualRecord.getTimestamp().toLocalDateTime().plusDays(3).isBefore(LocalDateTime.now()))
