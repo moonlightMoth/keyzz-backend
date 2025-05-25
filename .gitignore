@@ -10,5 +10,5 @@ target/
 
 src/main/resources/.env
 SECRET
-
+docker-build.sh
 
