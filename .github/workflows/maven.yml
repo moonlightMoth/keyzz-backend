@@ -3,9 +3,9 @@ name: Junit tests with Maven + docker build + push
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 env:
   REGISTRY: moonlightmoth.ru:1917
