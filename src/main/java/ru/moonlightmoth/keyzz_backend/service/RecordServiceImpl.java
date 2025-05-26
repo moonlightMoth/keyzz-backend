@@ -91,7 +91,7 @@ public class RecordServiceImpl implements RecordService{
                 .user(actualRecord.getUser())
                 .address(actualRecord.getAddress())
                 .note(patchRecordRequest.getNote())
-                .timestamp(actualRecord.getTimestamp())
+                .timestamp(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
 
         recordRepository.save(updatedRecord);

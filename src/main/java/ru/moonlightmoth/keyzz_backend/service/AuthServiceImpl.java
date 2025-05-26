@@ -81,7 +81,7 @@ public class AuthServiceImpl implements AuthService{
 
     private User validateJwtAmalgamation(JwtToken jwtToken, boolean isUserDetailsNeeded, boolean hasToBeAdmin)
     {
-        Mono<AuthorisationResponse> responseMono = webClient.method(HttpMethod.GET)
+        Mono<AuthorisationResponse> responseMono = webClient.method(HttpMethod.POST)
                 .uri("/authorise")
                 .bodyValue(AuthorisationRequest.builder().token(jwtToken).build())
                 .retrieve()
