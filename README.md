@@ -41,9 +41,50 @@ docker build --tag <your_tag> .
 
 In order to work properly keyzz-backend needs to be connected to postgresql database named with following schema: 
 
-![](https://ftp.moonlightmoth.ru/media/photos/records_table.png)
-![](https://ftp.moonlightmoth.ru/media/photos/users_table.png)
-![](https://ftp.moonlightmoth.ru/media/photos/addresses_table.png)
+```
+main_db=# \d records
+                                        Table "public.records"
+   Column   |            Type             | Collation | Nullable |              Default
+------------+-----------------------------+-----------+----------+------------------------------------
+ id         | integer                     |           | not null | nextval('record_id_seq'::regclass)
+ address_id | integer                     |           | not null |
+ note       | character varying(4095)     |           | not null |
+ user_id    | integer                     |           |          |
+ timestamp  | timestamp without time zone |           | not null |
+Indexes:
+    "record_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "record_address_fkey" FOREIGN KEY (address_id) REFERENCES addresses(id)
+    "record_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
+
+main_db=# \d users
+                                    Table "public.users"
+ Column  |         Type          | Collation | Nullable |              Default
+---------+-----------------------+-----------+----------+-----------------------------------
+ id      | integer               |           | not null | nextval('users_id_seq'::regclass)
+ login   | character varying(30) |           | not null |
+ name    | character varying(30) |           | not null |
+ surname | character varying(30) |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "login_uq" UNIQUE CONSTRAINT, btree (login)
+Referenced by:
+    TABLE "records" CONSTRAINT "record_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
+main_db=# \d addresses
+                                   Table "public.addresses"
+ Column  |          Type          | Collation | Nullable |               Default
+---------+------------------------+-----------+----------+-------------------------------------
+ id      | integer                |           | not null | nextval('address_id_seq'::regclass)
+ address | character varying(127) |           | not null |
+Indexes:
+    "address_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "records" CONSTRAINT "record_address_fkey" FOREIGN KEY (address_id) REFERENCES addresses(id)
+
+
+```
 
 
 Secrets management implemented using enviromental variables:
